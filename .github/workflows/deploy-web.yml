@@ -1,0 +1,48 @@
+# Builds the Flutter web app and deploys it to GitHub Pages on every push to main.
+#
+# One-time setup (in the GitHub repo):
+#   Settings -> Pages -> "Build and deployment" -> Source: "GitHub Actions"
+#
+# After that, pushing to main publishes the app at:
+#   https://<your-username>.github.io/CoachLoop-Flutter/
+#
+# If you rename the repo, update the --base-href flag below to match (/NewName/).
+name: Deploy Flutter web to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: flutter pub get
+      - run: flutter build web --release --base-href /CoachLoop-Flutter/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
