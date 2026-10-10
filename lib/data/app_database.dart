@@ -42,4 +42,13 @@ class AppDatabase extends _$AppDatabase {
   int get schemaVersion => 1;
 }
 
-QueryExecutor _openConnection() => driftDatabase(name: 'coach_loop');
+QueryExecutor _openConnection() => driftDatabase(
+      name: 'coach_loop',
+      // Required on web: without these, driftDatabase() throws and the app
+      // never starts (blank page). The two files live in web/ and are copied
+      // into the build output by `flutter build web`.
+      web: DriftWebOptions(
+        sqlite3Wasm: Uri.parse('sqlite3.wasm'),
+        driftWorker: Uri.parse('drift_worker.js'),
+      ),
+    );
