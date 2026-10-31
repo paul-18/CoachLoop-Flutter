@@ -26,7 +26,7 @@ your device, same as the PWA.
   empty states show guidance instead.
 
 The shared regression vectors live in `test/fixtures/training_rules_v1.json` and
-the matching PWA file `CoachLoop/docs/maintenance/training-rules-v1.json`.
+the matching file in `paul-18/CoachLoop` at `docs/maintenance/training-rules-v1.json`.
 Keep these files byte-for-byte identical. Tests in both repositories cover
 positive whole reps, fixed/range completion, and load-volume rules. The PWA
 currently owns FITLOG import; this Phase 1 Flutter app does not parse FITLOG.
