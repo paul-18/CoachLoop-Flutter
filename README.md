@@ -25,6 +25,12 @@ your device, same as the PWA.
   from working metrics, volume is load × reps (lb·reps / kg·reps). No sample data —
   empty states show guidance instead.
 
+The shared regression vectors live in `test/fixtures/training_rules_v1.json` and
+the matching PWA file `CoachLoop/docs/maintenance/training-rules-v1.json`.
+Keep these files byte-for-byte identical. Tests in both repositories cover
+positive whole reps, fixed/range completion, and load-volume rules. The PWA
+currently owns FITLOG import; this Phase 1 Flutter app does not parse FITLOG.
+
 ## Not yet (planned for Phase 2)
 
 FITLOG import, coach brief builder, progress charts/trends, body measurements,
@@ -55,8 +61,8 @@ App Store distribution needs the Apple Developer Program).
 ## Verify it
 
 ```sh
-flutter analyze              # static analysis — currently zero issues
-flutter test                 # 44 tests — currently all passing
+flutter analyze              # static analysis
+flutter test                 # domain, widget and shared-rule fixtures
 flutter build web --release  # verified artifact (output in build/web/)
 ```
 
